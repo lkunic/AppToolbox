@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<!-- Dialogs -->
+	<style name="dialog_button_bar">
+		<item name="android:gravity">right</item>
+		<item name="android:layout_marginBottom">@dimen/dialog_button_bar_margin</item>
+		<item name="android:layout_marginLeft">@dimen/dialog_button_bar_margin</item>
+		<item name="android:layout_marginRight">@dimen/dialog_button_bar_margin</item>
+	</style>
+
+	<style name="dialog_button">
+		<item name="android:layout_margin">@dimen/button_outer_margin</item>
+		<item name="android:paddingLeft">@dimen/button_side_padding</item>
+		<item name="android:paddingRight">@dimen/button_side_padding</item>
+		<item name="android:background">@drawable/transparent_selector</item>
+		<item name="android:minWidth">@dimen/button_min_width</item>
+	</style>
+
+	<style name="dialog_button_accent" parent="dialog_button">
+		<item name="android:textColor">@color/app_theme_accent</item>
+	</style>
+</resources>

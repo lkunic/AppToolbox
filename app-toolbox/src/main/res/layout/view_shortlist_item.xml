@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent">
+
+	<com.lkunic.libs.apptoolbox.views.FontTextView
+		android:id="@+id/text"
+		android:layout_width="wrap_content"
+		android:layout_height="@dimen/list_item_row_height"
+		android:gravity="start|center_vertical"
+		android:paddingLeft="@dimen/fragment_outer_padding"
+		android:paddingRight="@dimen/fragment_outer_padding"
+		android:text="@string/placeholder"
+		android:textColor="@color/text_primary"
+		app:font="regular.ttf"/>
+
+	<com.lkunic.libs.apptoolbox.views.FontTextView
+		android:id="@+id/text_secondary"
+		android:layout_width="wrap_content"
+		android:layout_height="@dimen/list_item_row_height"
+		android:layout_alignParentEnd="true"
+		android:layout_alignParentRight="true"
+		android:layout_toEndOf="@+id/text"
+		android:layout_toRightOf="@+id/text"
+		android:gravity="end|center_vertical"
+		android:paddingLeft="@dimen/fragment_outer_padding"
+		android:paddingRight="@dimen/fragment_outer_padding"
+		android:textColor="@color/text_secondary"
+		app:font="regular.ttf"/>
+
+</RelativeLayout>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	android:id="@+id/container"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:my="http://schemas.android.com/apk/res-auto"
+	android:layout_width="match_parent"
+	android:layout_height="@dimen/pager_tab_height"
+	android:clickable="true"
+	android:orientation="vertical">
+
+	<com.lkunic.libs.apptoolbox.views.FontTextView
+		android:id="@+id/primary_text"
+		android:layout_width="match_parent"
+		android:layout_height="0dp"
+		android:layout_weight="2"
+		android:gravity="center_horizontal|bottom"
+		android:text="@string/placeholder_number"
+		android:textColor="@color/text_primary_inverse"
+		android:textSize="@dimen/pager_tab_primary_text_size"
+		my:font="regular.ttf"/>
+
+	<com.lkunic.libs.apptoolbox.views.FontTextView
+		android:id="@+id/secondary_text"
+		android:layout_width="match_parent"
+		android:layout_height="0dp"
+		android:layout_weight="1"
+		android:gravity="center_horizontal"
+		android:text="@string/placeholder_title"
+		android:textColor="@color/text_secondary_inverse"
+		android:textSize="@dimen/pager_tab_secondary_text_size"
+		my:font="italic.ttf"/>
+
+</LinearLayout>

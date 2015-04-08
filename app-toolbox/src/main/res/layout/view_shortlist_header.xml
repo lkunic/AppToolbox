@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.lkunic.libs.apptoolbox.views.FontTextView
+	android:id="@+id/title"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:layout_width="match_parent"
+	android:layout_height="@dimen/list_header_height"
+	android:gravity="center_vertical"
+	android:padding="@dimen/fragment_outer_padding"
+	android:text="@string/placeholder_title"
+	android:textColor="@color/text_primary"
+	android:textSize="@dimen/subheader_text_size"
+	app:font="regular.ttf"/>

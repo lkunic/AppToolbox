@@ -1,3 +1,16 @@
 <resources>
-	<string name="app_name">AppToolbox</string>
+	<!-- Placeholders -->
+	<string name="placeholder">Hello world!</string>
+	<string name="placeholder_title">Title</string>
+	<string name="placeholder_date">25/08/2014</string>
+	<string name="placeholder_number">2048</string>
+	<string name="placeholder_line">Lorem ipsum dolor sit amet.</string>
+	<string name="placeholder_paragraph">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean et libero et enim tempor mollis vel nec magna. Phasellus ultricies eleifend tempor. Proin ac ornare sapien. Vivamus posuere maximus eros, ut pretium urna blandit in. Vivamus tincidunt ipsum in mi sollicitudin, vitae eleifend enim rhoncus. Quisque lacinia vitae libero vel fringilla. Nunc elit sapien, cursus id aliquet ornare, porttitor quis eros.</string>
+
+	<!-- Buttons -->
+	<string name="button_cancel">CANCEL</string>
+	<string name="button_done">DONE</string>
+	<string name="button_accept">ACCEPT</string>
+	<string name="button_delete">DELETE</string>
+	<string name="button_discard">DISCARD</string>
 </resources>
