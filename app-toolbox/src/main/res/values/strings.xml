@@ -1,4 +1,7 @@
 <resources>
+
+	<string name="app_name">AppToolbox</string>
+
 	<!-- Placeholders -->
 	<string name="placeholder">Hello world!</string>
 	<string name="placeholder_title">Title</string>

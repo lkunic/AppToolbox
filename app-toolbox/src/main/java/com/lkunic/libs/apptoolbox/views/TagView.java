@@ -3,6 +3,7 @@ package com.lkunic.libs.apptoolbox.views;
 import android.content.Context;
 import android.graphics.PorterDuff;
 import android.util.AttributeSet;
+import android.view.Gravity;
 
 import com.lkunic.libs.apptoolbox.R;
 
@@ -50,6 +51,7 @@ public class TagView extends FontTextView
 		int horizontalPadding = (int) getResources().getDimension(R.dimen.tag_view_side_padding);
 		setPadding(horizontalPadding, 0, horizontalPadding, 0);
 		setHeight((int) getResources().getDimension(R.dimen.tag_view_height));
+		setGravity(Gravity.CENTER_VERTICAL);
 
 		setTextSize(getResources().getDimension(R.dimen.tag_view_text_size));
 

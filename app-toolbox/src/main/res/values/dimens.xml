@@ -42,7 +42,7 @@
 	<dimen name="pager_tab_secondary_text_size">14sp</dimen>
 
 	<!-- TagView -->
-	<dimen name="tag_view_height">28dp</dimen>
+	<dimen name="tag_view_height">36dp</dimen>
 	<dimen name="tag_view_side_padding">8dp</dimen>
 	<dimen name="tag_view_text_size">8sp</dimen>
 	<dimen name="tag_bar_view_margins">8dp</dimen>
