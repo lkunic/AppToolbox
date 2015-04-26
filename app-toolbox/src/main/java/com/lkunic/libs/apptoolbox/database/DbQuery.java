@@ -16,9 +16,22 @@ public class DbQuery
 	private String mSelection;
 	private String mOrder;
 
-	public Cursor execute(ContentResolver resolver, Uri uri)
+	private Uri mUri;
+	private ContentResolver mResolver;
+
+	public static DbQuery create(ContentResolver resolver, Uri uri)
 	{
-		return resolver.query(uri, mProjection, mSelection, null, mOrder);
+		DbQuery query = new DbQuery();
+
+		query.mResolver = resolver;
+		query.mUri = uri;
+		
+		return query;
+	}
+
+	public Cursor execute()
+	{
+		return mResolver.query(mUri, mProjection, mSelection, null, mOrder);
 	}
 
 	public DbQuery withColumns(String[] columns)
