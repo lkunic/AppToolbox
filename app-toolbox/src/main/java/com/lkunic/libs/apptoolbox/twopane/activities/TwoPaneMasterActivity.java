@@ -3,7 +3,7 @@ package com.lkunic.libs.apptoolbox.twopane.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.lkunic.libs.apptoolbox.R;
@@ -18,7 +18,7 @@ import com.lkunic.libs.apptoolbox.twopane.fragments.ItemListFragment;
  * device is a tablet, the fragments are displayed as two side-by-side columns. If the device is a phone, the detail
  * fragment is opened in a separate activity.
  */
-public abstract class TwoPaneMasterActivity extends ActionBarActivity implements ItemListFragment.OnItemSelectedListener
+public abstract class TwoPaneMasterActivity extends AppCompatActivity implements ItemListFragment.OnItemSelectedListener
 {
 	// Whether or not the activity is in two-pane mode, i.e. running on a tablet device
 	private boolean mTwoPane;
@@ -31,8 +31,6 @@ public abstract class TwoPaneMasterActivity extends ActionBarActivity implements
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_twopane_master);
-
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		// Set up the item list fragment
 		getSupportFragmentManager().beginTransaction()

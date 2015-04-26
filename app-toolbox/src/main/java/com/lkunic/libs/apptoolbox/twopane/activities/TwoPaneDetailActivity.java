@@ -1,7 +1,7 @@
 package com.lkunic.libs.apptoolbox.twopane.activities;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 
 import com.lkunic.libs.apptoolbox.R;
 import com.lkunic.libs.apptoolbox.twopane.fragments.ItemDetailFragment;
@@ -14,15 +14,13 @@ import com.lkunic.libs.apptoolbox.twopane.fragments.ItemDetailFragment;
  * small-screen devices. When implementing this activity, make sure the TwoPaneMasterActivity implementation is
  * specified as parent in the application manifest in order for the 'Up' button to be enabled.
  */
-public abstract class TwoPaneDetailActivity extends ActionBarActivity
+public abstract class TwoPaneDetailActivity extends AppCompatActivity
 {
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_twopane_detail);
-
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		// The savedInstanceState is non-null when there is fragment state saved from previous configurations
 		// of this activity (e.g. when rotating the screen from portrait to landscape). In this case,
