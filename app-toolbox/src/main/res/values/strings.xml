@@ -10,10 +10,18 @@
 	<string name="placeholder_line">Lorem ipsum dolor sit amet.</string>
 	<string name="placeholder_paragraph">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean et libero et enim tempor mollis vel nec magna. Phasellus ultricies eleifend tempor. Proin ac ornare sapien. Vivamus posuere maximus eros, ut pretium urna blandit in. Vivamus tincidunt ipsum in mi sollicitudin, vitae eleifend enim rhoncus. Quisque lacinia vitae libero vel fringilla. Nunc elit sapien, cursus id aliquet ornare, porttitor quis eros.</string>
 
+	<!-- String formats -->
+	<string name="dialog_title_format_delete">Deleting %s</string>
+
+	<string name="ask_continue">Do you wish to continue?</string>
+
 	<!-- Buttons -->
 	<string name="button_cancel">CANCEL</string>
 	<string name="button_done">DONE</string>
 	<string name="button_accept">ACCEPT</string>
 	<string name="button_delete">DELETE</string>
 	<string name="button_discard">DISCARD</string>
+	<string name="button_start">START</string>
+	<string name="button_skip">SKIP</string>
+
 </resources>

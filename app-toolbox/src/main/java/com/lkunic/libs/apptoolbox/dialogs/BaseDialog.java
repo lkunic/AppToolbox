@@ -24,6 +24,9 @@ public abstract class BaseDialog<T> extends DialogFragment
 	// Dialog title
 	private String mTitle;
 
+	// Dialog tag (use for differentiating between dialogs using the same listener)
+	private String mDialogTag;
+
 	// Dialog result that is returned when a complete action is triggered
 	private T mResult;
 
@@ -104,6 +107,22 @@ public abstract class BaseDialog<T> extends DialogFragment
 	public T getDialogResult()
 	{
 		return mResult;
+	}
+
+	/**
+	 * Set the dialog tag. Can be used for differentiating between dialogs using the same result listener.
+	 */
+	public void setDialogTag(String tag)
+	{
+		mDialogTag = tag;
+	}
+
+	/**
+	 * Get the dialog tag. Can be used for differentiating between dialogs using the same result listener.
+	 */
+	public String getDialogTag()
+	{
+		return mDialogTag;
 	}
 
 	// endregion

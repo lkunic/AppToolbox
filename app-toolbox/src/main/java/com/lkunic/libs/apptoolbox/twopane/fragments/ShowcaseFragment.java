@@ -14,7 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.lkunic.libs.apptoolbox.R;
-import com.lkunic.libs.apptoolbox.views.PagerTabControl;
+import com.lkunic.libs.apptoolbox.views.TextButton;
 
 import java.util.List;
 
@@ -122,7 +122,7 @@ public abstract class ShowcaseFragment extends ItemDetailFragment
 		}
 
 		// Build the button bar for controlling the view pager
-		PagerTabControl pagerTabControl;
+		TextButton textButton;
 		LinearLayout showcaseButtonContainer;
 		LinearLayout.LayoutParams showcaseButtonParams = new LinearLayout.LayoutParams(
 				LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1);
@@ -133,11 +133,11 @@ public abstract class ShowcaseFragment extends ItemDetailFragment
 		for (int i = 0, n = infoFragments.length; i < n; i++)
 		{
 			// Create a new showcase button and populate it with data from corresponding fragment
-			pagerTabControl = new PagerTabControl(getActivity(), infoFragments[i].getPrimaryText(),
+			textButton = new TextButton(getActivity(), infoFragments[i].getPrimaryText(),
 					infoFragments[i].getSecondaryText());
 
 			// Setup the showcase view so that it can be used as a tab button
-			showcaseButtonContainer = (LinearLayout) pagerTabControl.findViewById(R.id.container);
+			showcaseButtonContainer = (LinearLayout) textButton.findViewById(R.id.container);
 			showcaseButtonContainer.setTag(i);
 			showcaseButtonContainer.setOnClickListener(showcaseButtonClickListener);
 			showcaseButtonContainer.setBackgroundResource(
@@ -145,8 +145,8 @@ public abstract class ShowcaseFragment extends ItemDetailFragment
 							   : R.drawable.pager_tab_control_background_2);
 
 			// Add the button to the button bar
-			pagerTabControl.setLayoutParams(showcaseButtonParams);
-			viewHolder.pagerButtonBar.addView(pagerTabControl);
+			textButton.setLayoutParams(showcaseButtonParams);
+			viewHolder.pagerButtonBar.addView(textButton);
 		}
 
 		viewHolder.viewPager.setCurrentItem(0, true);

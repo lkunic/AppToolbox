@@ -34,7 +34,7 @@ public class DbQuery
 		return mResolver.query(mUri, mProjection, mSelection, null, mOrder);
 	}
 
-	public DbQuery withColumns(String[] columns)
+	public DbQuery withColumns(String... columns)
 	{
 		this.mProjection = columns;
 		return this;

@@ -27,9 +27,9 @@ public abstract class ItemGridFragment extends ItemListFragment
 		grid.setOnItemClickListener(new AdapterView.OnItemClickListener()
 		{
 			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+			public void onItemClick(AdapterView<?> parent, View v, int position, long id)
 			{
-				getCallbacks().onItemSelected(id);
+				ItemGridFragment.this.getCallbacks().onItemSelected(id);
 			}
 		});
 

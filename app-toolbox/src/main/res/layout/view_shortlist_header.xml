@@ -6,7 +6,7 @@
 	android:layout_width="match_parent"
 	android:layout_height="@dimen/list_header_height"
 	android:gravity="center_vertical"
-	android:padding="@dimen/fragment_outer_padding"
+	android:padding="@dimen/activity_outer_padding"
 	android:text="@string/placeholder_title"
 	android:textColor="@color/text_primary"
 	android:textSize="@dimen/subheader_text_size"

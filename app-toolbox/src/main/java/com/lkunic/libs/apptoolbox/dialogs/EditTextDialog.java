@@ -93,7 +93,7 @@ public class EditTextDialog extends BaseDialog<String>
 	{
 		// Result edit text
 		final EditText etResult = (EditText) view.findViewById(R.id.et_result);
-		etResult.append(mValue);
+		etResult.setText(mValue);
 		etResult.setHint(mHint);
 		etResult.setInputType(mInputType);
 

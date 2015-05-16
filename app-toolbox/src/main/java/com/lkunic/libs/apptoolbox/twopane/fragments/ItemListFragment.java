@@ -33,6 +33,7 @@ public abstract class ItemListFragment extends Fragment
 			Log.e("ItemListFragment", "Dummy callback method called. Something is wrong with the implementation");
 		}
 	};
+
 	// The fragment's current callback object, which is notified of list item clicks
 	private OnItemSelectedListener mListener = sDummyListener;
 
@@ -63,7 +64,7 @@ public abstract class ItemListFragment extends Fragment
 		list.setOnItemClickListener(new AdapterView.OnItemClickListener()
 		{
 			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+			public void onItemClick(AdapterView<?> parent, View v, int position, long id)
 			{
 				mListener.onItemSelected(id);
 			}
