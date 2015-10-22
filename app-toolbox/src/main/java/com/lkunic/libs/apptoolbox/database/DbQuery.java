@@ -1,3 +1,14 @@
+/**
+ * Copyright (c) Luka Kunic 2015 / "DbQuery.java"
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software to deal in the software without restriction, including without
+ * limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ * and/or sell copies of the Software, provided that the licence notice is included
+ * in all copies or substantial portions of the software.
+ *
+ * Created by lkunic on 22/04/2015.
+ */
 package com.lkunic.libs.apptoolbox.database;
 
 import android.content.ContentResolver;
@@ -5,9 +16,6 @@ import android.database.Cursor;
 import android.net.Uri;
 
 /**
- * Copyright (c) Luka Kunic 2015 / "DbQuery.java"
- * Created by lkunic on 22/04/2015.
- *
  * A query that can be executed against a database.
  */
 public class DbQuery

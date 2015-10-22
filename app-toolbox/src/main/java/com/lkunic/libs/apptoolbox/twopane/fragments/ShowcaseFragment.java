@@ -1,3 +1,14 @@
+/**
+ * Copyright (c) Luka Kunic 2015 / "ShowcaseFragment.java"
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software to deal in the software without restriction, including without
+ * limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ * and/or sell copies of the Software, provided that the licence notice is included
+ * in all copies or substantial portions of the software.
+ *
+ * Created by lkunic on 08/04/2015.
+ */
 package com.lkunic.libs.apptoolbox.twopane.fragments;
 
 import android.graphics.Bitmap;
@@ -19,9 +30,6 @@ import com.lkunic.libs.apptoolbox.views.TextButton;
 import java.util.List;
 
 /**
- * Copyright (c) Luka Kunic 2015 / "ShowcaseFragment.java"
- * Created by lkunic on 08/04/2015.
- *
  * Extension of the {@link ItemDetailFragment} that displays a header image with a title overlay and a ViewPager
  * with tab controls.
  */
@@ -111,7 +119,7 @@ public abstract class ShowcaseFragment extends ItemDetailFragment
 		{
 			// The ViewPager doesn't have an adapter yet, create it and populate with info fragments
 			viewHolder.viewPager.setAdapter(new ShowcasePagerAdapter(getChildFragmentManager(), infoFragments));
-			viewHolder.viewPager.setOnPageChangeListener(showcasePageChangeListener);
+			viewHolder.viewPager.addOnPageChangeListener(showcasePageChangeListener);
 		}
 		else
 		{

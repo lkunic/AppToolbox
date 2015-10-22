@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) Luka Kunic 2015 / "picture_overlay_gradient.xml"
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software to deal in the software without restriction, including without
+limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the Software, provided that the licence notice is included
+in all copies or substantial portions of the software.
+
+Created by lkunic on 22/10/2015. -->
+
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
 
 	<gradient

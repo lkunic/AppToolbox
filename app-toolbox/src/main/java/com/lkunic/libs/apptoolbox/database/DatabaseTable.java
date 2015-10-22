@@ -1,11 +1,19 @@
+/**
+ * Copyright (c) Luka Kunic 2015 / "DatabaseTable.java"
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software to deal in the software without restriction, including without
+ * limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ * and/or sell copies of the Software, provided that the licence notice is included
+ * in all copies or substantial portions of the software.
+ *
+ * Created by lkunic on 08/04/2015.
+ */
 package com.lkunic.libs.apptoolbox.database;
 
 import android.database.sqlite.SQLiteDatabase;
 
 /**
- * Copyright (c) Luka Kunic 2015 / "DatabaseTable.java"
- * Created by lkunic on 08/04/2015.
- *
  * Template class for creating a database table model.
  */
 public abstract class DatabaseTable

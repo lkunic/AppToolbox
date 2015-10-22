@@ -1,3 +1,14 @@
+/**
+ * Copyright (c) Luka Kunic 2015 / "ItemListCursorAdapter.java"
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software to deal in the software without restriction, including without
+ * limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ * and/or sell copies of the Software, provided that the licence notice is included
+ * in all copies or substantial portions of the software.
+ *
+ * Created by lkunic on 08/04/2015.
+ */
 package com.lkunic.libs.apptoolbox.twopane;
 
 import android.content.Context;
@@ -8,9 +19,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 /**
- * Copyright (c) Luka Kunic 2015 / "ItemListCursorAdapter.java"
- * Created by lkunic on 08/04/2015.
- *
  * Base for creating an adapter that populates a list with cursor data received from a data set.
  */
 public abstract class ItemListCursorAdapter extends CursorAdapter

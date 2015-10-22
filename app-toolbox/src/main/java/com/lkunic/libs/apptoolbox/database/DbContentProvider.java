@@ -1,3 +1,14 @@
+/**
+ * Copyright (c) Luka Kunic 2015 / "DbContentProvider.java"
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software to deal in the software without restriction, including without
+ * limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ * and/or sell copies of the Software, provided that the licence notice is included
+ * in all copies or substantial portions of the software.
+ *
+ * Created by lkunic on 23/04/2015.
+ */
 package com.lkunic.libs.apptoolbox.database;
 
 import android.content.ContentProvider;
@@ -10,14 +21,12 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 
 import com.lkunic.libs.apptoolbox.R;
 import com.lkunic.libs.apptoolbox.exceptions.DatabaseProviderException;
 
 /**
- * Copyright (c) Luka Kunic 2015 / "DbContentProvider.java"
- * Created by lkunic on 23/04/2015.
- *
  * Provides common functionality for creating an application content provider.
  */
 public abstract class DbContentProvider extends ContentProvider
@@ -69,7 +78,7 @@ public abstract class DbContentProvider extends ContentProvider
 	}
 
 	@Override
-	public String getType(Uri uri)
+	public String getType(@NonNull Uri uri)
 	{
 		int uriType = sUriMatcher.match(uri);
 
@@ -92,7 +101,7 @@ public abstract class DbContentProvider extends ContentProvider
 	// region Database access methods
 
 	@Override
-	public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder)
+	public Cursor query(@NonNull Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder)
 	{
 		SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
 
@@ -123,7 +132,7 @@ public abstract class DbContentProvider extends ContentProvider
 	}
 
 	@Override
-	public Uri insert(Uri uri, ContentValues values)
+	public Uri insert(@NonNull Uri uri, ContentValues values)
 	{
 		if (values == null)
 		{
@@ -168,7 +177,7 @@ public abstract class DbContentProvider extends ContentProvider
 	}
 
 	@Override
-	public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs)
+	public int update(@NonNull Uri uri, ContentValues values, String selection, String[] selectionArgs)
 	{
 		if (values == null)
 		{
@@ -218,7 +227,7 @@ public abstract class DbContentProvider extends ContentProvider
 	}
 
 	@Override
-	public int delete(Uri uri, String selection, String[] selectionArgs)
+	public int delete(@NonNull Uri uri, String selection, String[] selectionArgs)
 	{
 		// Get the uri type
 		int uriType = sUriMatcher.match(uri);

@@ -1,3 +1,14 @@
+/**
+ * Copyright (c) Luka Kunic 2015 / "TwoPaneDetailActivity.java"
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software to deal in the software without restriction, including without
+ * limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ * and/or sell copies of the Software, provided that the licence notice is included
+ * in all copies or substantial portions of the software.
+ *
+ * Created by lkunic on 08/04/2015.
+ */
 package com.lkunic.libs.apptoolbox.twopane.activities;
 
 import android.os.Bundle;
@@ -7,9 +18,6 @@ import com.lkunic.libs.apptoolbox.R;
 import com.lkunic.libs.apptoolbox.twopane.fragments.ItemDetailFragment;
 
 /**
- * Copyright (c) Luka Kunic 2015 / "TwoPaneDetailActivity.java"
- * Created by lkunic on 08/04/2015.
- *
  * Host activity for the detail fragment in the TwoPane master-detail flow. This activity will only be used on
  * small-screen devices. When implementing this activity, make sure the TwoPaneMasterActivity implementation is
  * specified as parent in the application manifest in order for the 'Up' button to be enabled.

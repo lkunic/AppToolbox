@@ -1,3 +1,14 @@
+/**
+ * Copyright (c) Luka Kunic 2015 / "BaseDialog.java"
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software to deal in the software without restriction, including without
+ * limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ * and/or sell copies of the Software, provided that the licence notice is included
+ * in all copies or substantial portions of the software.
+ *
+ * Created by lkunic on 08/04/2015.
+ */
 package com.lkunic.libs.apptoolbox.dialogs;
 
 import android.os.Bundle;
@@ -9,9 +20,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 /**
- * Copyright (c) Luka Kunic 2015 / "BaseDialog.java"
- * Created by lkunic on 08/04/2015.
- *
  * Generic dialog base. Provides dialog logic and abstracts access to the dialog result listener.
  * The generic parameter T is used to specify the type of the dialog result.
  */

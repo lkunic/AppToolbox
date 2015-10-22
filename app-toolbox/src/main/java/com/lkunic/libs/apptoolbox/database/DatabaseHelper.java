@@ -1,3 +1,14 @@
+/**
+ * Copyright (c) Luka Kunic 2015 / "DatabaseHelper.java"
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software to deal in the software without restriction, including without
+ * limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ * and/or sell copies of the Software, provided that the licence notice is included
+ * in all copies or substantial portions of the software.
+ *
+ * Created by lkunic on 08/04/2015.
+ */
 package com.lkunic.libs.apptoolbox.database;
 
 import android.content.Context;
@@ -5,9 +16,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 /**
- * Copyright (c) Luka Kunic 2015 / "DatabaseHelper.java"
- * Created by lkunic on 08/04/2015.
- *
  * Helper class used for managing the database lifecycle.
  */
 public class DatabaseHelper extends SQLiteOpenHelper
