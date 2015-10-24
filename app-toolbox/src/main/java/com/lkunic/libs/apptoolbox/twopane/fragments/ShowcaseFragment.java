@@ -141,7 +141,7 @@ public abstract class ShowcaseFragment extends ItemDetailFragment
 		for (int i = 0, n = infoFragments.length; i < n; i++)
 		{
 			// Create a new showcase button and populate it with data from corresponding fragment
-			textButton = new TextButton(getActivity(), infoFragments[i].getPrimaryText(),
+			textButton = new TextButton(getContext(), infoFragments[i].getPrimaryText(),
 					infoFragments[i].getSecondaryText());
 
 			// Setup the showcase view so that it can be used as a tab button

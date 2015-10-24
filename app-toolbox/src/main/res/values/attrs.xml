@@ -18,20 +18,6 @@ Created by lkunic on 22/10/2015. -->
 		<attr name="secondary_text" format="string" />
 	</declare-styleable>
 
-	<declare-styleable name="SortableListView">
-		<attr name="normal_height" format="dimension" />
-		<attr name="expanded_height" format="dimension" />
-		<attr name="grabber" format="reference" />
-		<attr name="drag_background" format="color" />
-		<attr name="remove_mode">
-			<enum name="none" value="-1" />
-			<enum name="fling" value="0" />
-			<enum name="slide" value="1" />
-			<enum name="slideRight" value="1" />
-			<enum name="slideLeft" value="2" />
-		</attr>
-	</declare-styleable>
-
 	<declare-styleable name="CountdownTimerView">
 		<attr name="initial_seconds" format="integer" />
 		<attr name="display_seconds_label" format="boolean"/>
