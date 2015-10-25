@@ -12,6 +12,7 @@
 package com.lkunic.libs.apptoolbox.adapters;
 
 import android.content.Context;
+import android.os.Build;
 import android.widget.ArrayAdapter;
 
 import java.util.Arrays;
@@ -45,7 +46,7 @@ public class StableArrayAdapter<T> extends ArrayAdapter<T>
 	@Override
 	public long getItemId(int position)
 	{
-		if (position < 0 || position >= mIdMap.size())
+		if (position < 0 || position >= mIdMap.size() || position >= getCount())
 		{
 			return -1;
 		}

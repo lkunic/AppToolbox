@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) Luka Kunic 2015 / "row_delete_background.xml"
+  
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software to deal in the software without restriction, including without 
+limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+and/or sell copies of the Software, provided that the licence notice is included
+in all copies or substantial portions of the software.
+
+Created by lkunic on 24/10/2015. -->
+
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="@color/app_theme_accent"
+	android:orientation="vertical">
+
+	<ImageView
+		android:src="@drawable/ic_action_discard"
+		android:contentDescription="@string/button_delete"
+		android:paddingLeft="@dimen/activity_outer_padding"
+		android:paddingRight="@dimen/activity_outer_padding"
+		android:layout_width="wrap_content"
+		android:layout_height="match_parent"
+		android:layout_alignParentLeft="true"
+		android:layout_alignParentStart="true"/>
+
+	<ImageView
+		android:src="@drawable/ic_action_discard"
+		android:contentDescription="@string/button_delete"
+		android:paddingLeft="@dimen/activity_outer_padding"
+		android:paddingRight="@dimen/activity_outer_padding"
+		android:layout_width="wrap_content"
+		android:layout_height="match_parent"
+		android:layout_alignParentRight="true"
+		android:layout_alignParentEnd="true"/>
+
+
+</RelativeLayout>

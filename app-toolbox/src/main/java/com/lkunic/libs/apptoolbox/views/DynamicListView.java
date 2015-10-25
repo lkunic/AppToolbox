@@ -23,13 +23,16 @@ import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.ViewTreeObserver;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.lkunic.libs.apptoolbox.R;
 import com.lkunic.libs.apptoolbox.adapters.StableArrayAdapter;
 
 import java.util.List;
@@ -52,16 +55,17 @@ public class DynamicListView extends ListView
 	// region Variables and Constants
 
 	// Constants
-	private final int SMOOTH_SCROLL_AMOUNT_AT_EDGE = 60;
+	private final int SMOOTH_SCROLL_AMOUNT_AT_EDGE = 30;
 	private final int ITEM_SWAP_OVERLAP_SIZE = 30;
-	private final int LEFT_CELL_HOVER_GRABBER_WIDTH = 120;
 	private final int BITMAP_SHADOW_SIZE = 10;
 	private final int INVALID_ID = -1;
-	private final int ANIMATION_DURATION = 150;
+	private final int ANIMATION_DURATION = 200;
+	private final int ANIMATION_START_DELAY = 30;
 
 	// Touch
 	private int mDownX = -1;
 	private int mDownY = -1;
+	private int mLastEventX = -1;
 	private int mLastEventY = -1;
 	private int mActivePointerId = INVALID_ID;
 
@@ -75,8 +79,11 @@ public class DynamicListView extends ListView
 	// Hover cell
 	private boolean mCellIsHovering = false;
 	private boolean mCellIsScrolling = false;
+	private boolean mCellIsDragDrop = false;
+	private boolean mCellIsSwiping = false;
 	private boolean mIsWaitingForScrollToFinish = false;
 	private BitmapDrawable mHoverCell;
+	private BitmapDrawable mDeleteBackground;
 	private Rect mHoverCellOriginalBounds;
 	private Rect mHoverCellCurrentBounds;
 
@@ -129,6 +136,12 @@ public class DynamicListView extends ListView
 		// If the hover cell is not null, this will draw it over the ListView items whenever the ListView is redrawn
 		if (mHoverCell != null)
 		{
+			// If currently, swiping, this will draw the delete background under the hover cell
+			if (mCellIsSwiping && mDeleteBackground != null)
+			{
+				mDeleteBackground.draw(canvas);
+			}
+
 			mHoverCell.draw(canvas);
 		}
 	}
@@ -152,6 +165,7 @@ public class DynamicListView extends ListView
 				break;
 
 			case MotionEvent.ACTION_MOVE:
+
 				if (mActivePointerId == INVALID_ID)
 				{
 					break;
@@ -159,11 +173,20 @@ public class DynamicListView extends ListView
 
 				int pointerIndex = event.findPointerIndex(mActivePointerId);
 
-				// Get the delta amount for the Y coordinate since the touch started
+				// Get the delta amount for x and y coordinates since the touch started
+				mLastEventX = (int) event.getX(pointerIndex);
 				mLastEventY = (int) event.getY(pointerIndex);
+				int deltaX = mLastEventX - mDownX;
 				int deltaY = mLastEventY - mDownY;
+				int swipeSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
 
-				if (mCellIsHovering)
+				if (!mCellIsHovering && Math.abs(deltaX) > swipeSlop && Math.abs(deltaY) < swipeSlop)
+				{
+					mCellIsSwiping = true;
+					beginCellHover();
+				}
+
+				if (mCellIsHovering && mCellIsDragDrop)
 				{
 					// Move the hover cell on the Y axis to follow the touch location
 					mHoverCellCurrentBounds.offsetTo(mHoverCellOriginalBounds.left,
@@ -179,7 +202,18 @@ public class DynamicListView extends ListView
 					// Handle scrolling
 					mCellIsScrolling = handleCellScroll(mHoverCellCurrentBounds);
 
-					return false;
+					return true;
+				}
+				else if (mCellIsHovering && mCellIsSwiping)
+				{
+					// Move the hover cell on the X axis to follow the swipe direction
+					mHoverCellCurrentBounds.offsetTo(mHoverCellOriginalBounds.left + deltaX + mTotalOffset,
+							mHoverCellOriginalBounds.top);
+
+					mHoverCell.setBounds(mHoverCellCurrentBounds);
+					invalidate();
+
+					return true;
 				}
 
 				break;
@@ -207,7 +241,7 @@ public class DynamicListView extends ListView
 			default:
 				break;
 		}
-		
+
 		return super.onTouchEvent(event);
 	}
 
@@ -217,59 +251,113 @@ public class DynamicListView extends ListView
 	private void touchEventsEnded()
 	{
 		final View hoverView = getViewForId(mHoverItemId);
+		setPressed(false);
 
-		if (hoverView != null && (mCellIsHovering || mIsWaitingForScrollToFinish))
+		if (hoverView != null)
 		{
-			// Stop cell hovering and scrolling
-			mCellIsHovering = false;
-			mIsWaitingForScrollToFinish = false;
-			mCellIsScrolling = false;
-			mActivePointerId = INVALID_ID;
-
-			// If the auto-scroller has not yet completed with scrolling, we have to wait for it to finish in order
-			// to determine the final location for the hover cell animation.
-			if (mScrollState != OnScrollListener.SCROLL_STATE_IDLE)
+			// If the action performed was a swipe, handle animating the view out of the screen, collapsing the item
+			// views and deleting the item out of the list
+			float deltaX = mLastEventX - mDownX;
+			if (mCellIsSwiping && Math.abs(deltaX) > hoverView.getWidth() / 3)
 			{
-				mIsWaitingForScrollToFinish = true;
-				return;
+				mCellIsHovering = false;
+				mActivePointerId = INVALID_ID;
+
+				// Animate the hover cell leaving the screen
+				mHoverCellCurrentBounds.offsetTo(deltaX < 0 ? -hoverView.getWidth() : hoverView.getWidth(),
+						hoverView.getTop());
+
+				ObjectAnimator hoverViewAnimator = ObjectAnimator
+						.ofObject(mHoverCell, "bounds", sBoundEvaluator, mHoverCellCurrentBounds);
+				hoverViewAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener()
+				{
+					@Override
+					public void onAnimationUpdate(ValueAnimator valueAnimator)
+					{
+						invalidate();
+					}
+				});
+				hoverViewAnimator.addListener(new AnimatorListenerAdapter()
+				{
+					@Override
+					public void onAnimationStart(Animator animation)
+					{
+						setEnabled(false);
+					}
+
+					@Override
+					public void onAnimationEnd(Animator animation)
+					{
+						// Delete the item from the list and animate other items closing the gap
+						handleItemRemoval(mHoverItemId);
+
+						// Reset all hover-related variables
+						mHoverItemId = INVALID_ID;
+						mCellIsSwiping = false;
+						hoverView.setVisibility(View.VISIBLE);
+						setEnabled(true);
+						mHoverCell = null;
+					}
+				});
+
+				hoverViewAnimator.start();
 			}
-
-			// Animate the hover cell falling in place
-			mHoverCellCurrentBounds.offsetTo(mHoverCellOriginalBounds.left, hoverView.getTop());
-
-			ObjectAnimator hoverViewAnimator =
-					ObjectAnimator.ofObject(mHoverCell, "bounds", sBoundEvaluator, mHoverCellCurrentBounds);
-			hoverViewAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener()
+			// If the action performed was a drag-drop reordering, handle popping the hover view into the correct
+			// position in the list
+			else if (mCellIsHovering || mIsWaitingForScrollToFinish)
 			{
-				@Override
-				public void onAnimationUpdate(ValueAnimator valueAnimator)
+				// Stop cell hovering and scrolling
+				mCellIsHovering = false;
+				mIsWaitingForScrollToFinish = false;
+				mCellIsDragDrop = false;
+				mCellIsScrolling = false;
+				mActivePointerId = INVALID_ID;
+
+				// If the auto-scroller has not yet completed with scrolling, we have to wait for it to finish in order
+				// to determine the final location for the hover cell animation.
+				if (mScrollState != OnScrollListener.SCROLL_STATE_IDLE)
 				{
-					invalidate();
-				}
-			});
-			hoverViewAnimator.addListener(new AnimatorListenerAdapter()
-			{
-				@Override
-				public void onAnimationStart(Animator animation)
-				{
-					setEnabled(false);
+					mIsWaitingForScrollToFinish = true;
+					return;
 				}
 
-				@Override
-				public void onAnimationEnd(Animator animation)
-				{
-					// Reset all hover-related variables
-					mAboveItemId = INVALID_ID;
-					mHoverItemId = INVALID_ID;
-					mBelowItemId = INVALID_ID;
-					hoverView.setVisibility(View.VISIBLE);
-					mHoverCell = null;
-					setEnabled(true);
-					invalidate();
-				}
-			});
+				// Animate the hover cell falling in place
+				mHoverCellCurrentBounds.offsetTo(mHoverCellOriginalBounds.left, hoverView.getTop());
 
-			hoverViewAnimator.start();
+				ObjectAnimator hoverViewAnimator = ObjectAnimator
+						.ofObject(mHoverCell, "bounds", sBoundEvaluator, mHoverCellCurrentBounds);
+				hoverViewAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener()
+				{
+					@Override
+					public void onAnimationUpdate(ValueAnimator valueAnimator)
+					{
+						invalidate();
+					}
+				});
+				hoverViewAnimator.addListener(new AnimatorListenerAdapter()
+				{
+					@Override
+					public void onAnimationStart(Animator animation)
+					{
+						setEnabled(false);
+					}
+
+					@Override
+					public void onAnimationEnd(Animator animation)
+					{
+						// Reset all hover-related variables
+						mAboveItemId = INVALID_ID;
+						mHoverItemId = INVALID_ID;
+						mBelowItemId = INVALID_ID;
+						hoverView.setVisibility(View.VISIBLE);
+						setEnabled(true);
+						mCellIsSwiping = false;
+						mHoverCell = null;
+					}
+				});
+
+				hoverViewAnimator.start();
+			}
 		}
 		else
 		{
@@ -290,11 +378,13 @@ public class DynamicListView extends ListView
 			mBelowItemId = INVALID_ID;
 			hoverView.setVisibility(View.VISIBLE);
 			mHoverCell = null;
-			invalidate();
+			setEnabled(true);
 		}
 
 		mCellIsHovering = false;
 		mCellIsScrolling = false;
+		mCellIsDragDrop = false;
+		mCellIsSwiping = false;
 		mActivePointerId = INVALID_ID;
 	}
 
@@ -327,13 +417,19 @@ public class DynamicListView extends ListView
 	 * Listener that handles item long-click events. Used to initiate drag-drop functionality for selected item.
 	 * When an item is selected, creates and sets up the hover cell.
 	 */
+
 	private AdapterView.OnItemLongClickListener mItemLongClickListener =
 			new AdapterView.OnItemLongClickListener()
 	{
 		@Override
 		public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id)
 		{
-			beginCellHover();
+			if (!mCellIsHovering)
+			{
+				mCellIsDragDrop = true;
+				beginCellHover();
+			}
+
 			return true;
 		}
 	};
@@ -348,6 +444,12 @@ public class DynamicListView extends ListView
 		// Get the position of the item at the initial touch location
 		int pos = pointToPosition(mDownX, mDownY);
 		int itemNum = pos - getFirstVisiblePosition();
+
+		if (itemNum == -1)
+		{
+			mCellIsDragDrop = false;
+			return;
+		}
 
 		// Create the hover bitmap view and hide the original list item
 		View selectedView = getChildAt(itemNum);
@@ -380,6 +482,26 @@ public class DynamicListView extends ListView
 		mHoverCellCurrentBounds = new Rect(mHoverCellOriginalBounds);
 
 		drawable.setBounds(mHoverCellCurrentBounds);
+
+		if (mCellIsSwiping)
+		{
+			// When the cell is swiping to the side, display a background image indicating the delete action
+			if (mDeleteBackground == null)
+			{
+				View bgView = LayoutInflater.from(getContext()).inflate(R.layout.row_delete_background, this, false);
+				bgView.measure(MeasureSpec.makeMeasureSpec(v.getWidth(), MeasureSpec.EXACTLY),
+						MeasureSpec.makeMeasureSpec(v.getHeight(), MeasureSpec.EXACTLY));
+				bgView.layout(left, top, left + v.getWidth(), top + v.getHeight());
+
+				Bitmap bgBitmap = Bitmap.createBitmap(v.getWidth(), v.getHeight(), Bitmap.Config.ARGB_8888);
+				Canvas canvas = new Canvas(bgBitmap);
+
+				bgView.draw(canvas);
+				mDeleteBackground = new BitmapDrawable(getResources(), bgBitmap);
+			}
+
+			mDeleteBackground.setBounds(mHoverCellCurrentBounds);
+		}
 
 		return drawable;
 	}
@@ -465,7 +587,7 @@ public class DynamicListView extends ListView
 
 	// endregion
 
-	// region Item reordering
+	// region Item reordering and removing
 
 	/**
 	 * If the hover cell has been moved far enough to trigger an item switch, the data set gets changed and the layout
@@ -491,17 +613,14 @@ public class DynamicListView extends ListView
 			View switchView = isBelow ? belowView : aboveView;
 			final int originalItemPosition = getPositionForView(hoverView);
 
-			// Swap the items in the array adapter
-			swapListItems(originalItemPosition, getPositionForView(switchView));
-			((StableArrayAdapter)getAdapter()).notifyDataSetChanged();
-
 			mDownY = mLastEventY;
 
 			final int switchViewStartTop = switchView.getTop();
 
-			// The items in the list have been swapped, so the hover cell now corresponds to the switch view
-			hoverView.setVisibility(View.INVISIBLE);
-			switchView.setVisibility(View.VISIBLE);
+			hoverView.setVisibility(View.VISIBLE);
+
+			// Swap the items in the array adapter
+			swapListItems(originalItemPosition, getPositionForView(switchView));
 
 			// Get the new neighbours after the swap
 			updateNeighbourViewsForId(mHoverItemId);
@@ -515,6 +634,12 @@ public class DynamicListView extends ListView
 				{
 					// Remove the listener immediately because we want this only to be called once
 					observer.removeOnPreDrawListener(this);
+
+					View hoverView = getViewForId(mHoverItemId);
+					if (hoverView != null)
+					{
+						hoverView.setVisibility(View.INVISIBLE);
+					}
 
 					// The views were swapped so we need to get a new reference to the switch view
 					View switchView = getViewForId(switchItemId);
@@ -539,7 +664,6 @@ public class DynamicListView extends ListView
 				}
 			});
 		}
-
 	}
 
 	/**
@@ -552,6 +676,61 @@ public class DynamicListView extends ListView
 		Object temp = mListItems.get(posFirst);
 		mListItems.set(posFirst, mListItems.get(posSecond));
 		mListItems.set(posSecond, temp);
+
+		((StableArrayAdapter)getAdapter()).notifyDataSetChanged();
+	}
+
+	/**
+	 * Removes the current hover item from the list and animates all views below it closing the gap.
+	 */
+	private void handleItemRemoval(final long hoverItemId)
+	{
+		final int hoverViewPosition = getPositionForId(hoverItemId);
+
+		removeListItem(hoverViewPosition);
+
+		// Use the PreDrawListener of the ViewTreeObserver to animate the below views closing the gap.
+		final ViewTreeObserver observer = getViewTreeObserver();
+		observer.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener()
+		{
+			@Override
+			public boolean onPreDraw()
+			{
+				// Remove the listener immediately because we want this only to be called once
+				observer.removeOnPreDrawListener(this);
+
+				StableArrayAdapter adapter = (StableArrayAdapter)getAdapter();
+
+				View slideView;
+				ObjectAnimator animator;
+
+				for (int i = hoverViewPosition, n = getLastVisiblePosition() + 1; i < n; i++)
+				{
+					slideView = getViewForId(adapter.getItemId(i));
+					if (slideView != null)
+					{
+						slideView.setTranslationY(slideView.getHeight());
+
+						animator = ObjectAnimator.ofFloat(slideView, View.TRANSLATION_Y, 0);
+						animator.setDuration(ANIMATION_DURATION);
+						animator.setStartDelay((i - hoverViewPosition) * ANIMATION_START_DELAY);
+						animator.start();
+					}
+				}
+
+				return true;
+			}
+		});
+	}
+
+	/**
+	 * Removes the item at the given index from the item list.
+	 * @param position Position of the item to remove.
+	 */
+	private void removeListItem(int position)
+	{
+		mListItems.remove(position);
+		((StableArrayAdapter)getAdapter()).notifyDataSetChanged();
 	}
 
 	// endregion
